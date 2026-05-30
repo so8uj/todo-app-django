@@ -27,3 +27,14 @@ def changeStatus(request,todo_status,todo_id):
     return redirect('index')
 
 
+def updateTodo(request,todo_id):
+
+    title = request.POST.get('title')
+    description = request.POST.get('description')
+
+    todo = Todo.objects.get(id=todo_id)
+    todo.title = title
+    todo.description = description
+    todo.save()
+
+    return redirect('index')

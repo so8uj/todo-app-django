@@ -120,7 +120,7 @@ textarea {
   min-height: 120px;
 }
 
-button {
+button , a.btn{
   width: 100%;
   border: none;
   border-radius: 12px;
@@ -130,6 +130,9 @@ button {
   font-weight: 600;
   cursor: pointer;
   transition: 0.3s;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
 }
 
 button:hover {
@@ -228,8 +231,9 @@ button:hover {
 }
 
 .delete-btn {
-  background: var(--danger);
+  background: var(--danger) !important;
 }
+
 
 .actions {
   display: flex;
