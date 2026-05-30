@@ -1,0 +1,138 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Todo App</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="header">
+            <div class="logo">
+                <h1>📝 My Todo</h1>
+                <p>Stay organized and productive every day.</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>{{ pending_todos.count }}</h3>
+                    <span>Total Tasks</span>
+                </div>
+
+                <div class="stat-card">
+                    <h3>{{ completed_todos.count }}</h3>
+                    <span>Completed</span>
+                </div>
+
+                <div class="stat-card">
+                    <h3>{{ pending_todos.count }}</h3>
+                    <span>Pending</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="layout">
+
+            <!-- Add Task Form -->
+            <aside class="card form-card">
+                <h2>Add New Task</h2>
+
+                <form method="POST" action="{% url 'addTodo' %}">
+
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label>Task Title</label>
+                        <input type="text" name="title" placeholder="Enter task title">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Task Details</label>
+                        <textarea name="description" placeholder="Describe your task..."></textarea>
+                    </div>
+
+                    <button type="submit">
+                        + Add Task
+                    </button>
+                </form>
+            </aside>
+
+            <!-- Tasks -->
+            <main class="task-section">
+
+                <section class="card">
+                    <div class="section-header">
+                        <h2>Active Tasks</h2>
+                        <span class="badge">{{ pending_todos.count }} Tasks</span>
+                    </div>
+
+                    <div class="task-grid">
+
+                        {%  for pending_todo in pending_todos %}
+
+                            <div class="task">
+                                <h3>{{ pending_todo.title }}</h3>
+                                <p>{{ pending_todo.description }}</p>
+
+                                <div class="task-footer">
+                                    <span class="status pending">In Progress</span>
+
+                                    <div class="actions">
+                                        <a href="{% url 'changeStatus' 1 pending_todo.id %}" class="icon-btn done-btn">✓</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+
+                            
+                    </div>
+                </section>
+
+                <section class="card">
+                    <div class="section-header">
+                        <h2>Completed Tasks</h2>
+                        <span class="badge">{{ completed_todos.count }} Tasks</span>
+                    </div>
+
+                    <div class="task-grid">
+
+                        {%  for completed_todo in completed_todos %}
+
+                            <div class="task completed-task">
+                                <h3>{{ completed_todo.title }}</h3>
+                                <p>{{ completed_todo.description }}</p>
+
+                                <div class="task-footer">
+                                    <span class="status completed">Completed</span>
+
+                                    <div class="actions">
+                                        <a href="{% url 'changeStatus' 0 completed_todo.id %}" class="icon-btn delete-btn">✕</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+                </section>
+
+            </main>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
